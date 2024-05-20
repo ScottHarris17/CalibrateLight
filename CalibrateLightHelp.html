@@ -1,0 +1,57 @@
+<head>
+<link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css”rel=”nofollow” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
+</head>
+
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Roboto');
+</style>
+
+<body style="background:#cffceb" font-family="Roboto">
+<h1>Calibrate Light Help Page</h1>
+<p>This page documents how to use the CalibrateLight MATLAB app. For questions, contact <a href="mailto:scott.harris@ucsf.edu">scott.harris@ucsf.edu</a>.</p>
+<p><u>Purpose&nbsp;</u><br>Use this app to calculate photoisomerization rates in the rodent retina.</p>
+<p>&nbsp;</p>
+<p><u>Requirements</u></p>
+<ul>
+    <li>MATLAB 2020+</li>
+    <li>Power Meter</li>
+    <li>Photospectrometer</li>
+</ul>
+<p>The power meter and photospectrometer should be used before running this app to record data about the light power (a single number in watts) and spectrum (usually this is one vector of wavelengths and one vector of the relative power reading at each wavelength), respectively. Then, use this app to calculate the photoisomerization rate of M-cones, S-cones, and rods. Note, these calculations are based on absorption spectra for rodent opsins, but the code can be easily modified to calculate photoisomerization rates for human photoreceptors, or any other species.</p>
+<p>&nbsp;</p>
+<p><u>How to Use</u></p>
+<ul>
+    <li>To run, enter <code>&gt;&gt;CalibrateLight</code> in the MATLAB command line. Ensure that the app is in your MATLAB path.</li>
+    <li>You may use either a .txt file (as generated from <a target="_blank" rel="noopener noreferrer" href="https://www.spectralproducts.com/Manuals/760">SM32Pro photospectrometer</a>) or .mat files to load your spectra.&nbsp;<ul>
+            <li>If you are using .mat files, use the buttons in the main window to load your data.&nbsp;<ul>
+                    <li>The “wavelengths” .mat file should be a 1xn vector containing the wavelengths (in nm) of your spectra&nbsp;</li>
+                    <li>The “intensities” .mat file should be a 1xn vector containing the intensity value (in arbitrary units) of your spectra at each wavelength value</li>
+                    <li>The size of “wavelengths” and “intensities” must be the same</li>
+                </ul>
+            </li>
+            <li>If you are using .txt files, use the “Load Text File” option in the top menu bar. This should automatically load both the spectra and wavelengths if the text file is in the correct format.<ul>
+                    <li>You may also perform a background subtraction by selecting the “Background Subtraction” button that appears when you hover over the "Load Text File" menu option. Select a text file that contains the background spectrum that you would like to subtract off of your signal (e.g., you might use this if you recorded the original spectrum in the presence of some ambient lighting that you don't want to influence the readouts).<ul>
+                            <li>After adding the background, you will get a message in the Matlab command window that will tell you whether or not the background subtraction was successfully performed. To get back to your original spectrum after performing background subtraction, you must reload your original spectrum using the “Load Text File” menu option again. Performing backgroundbackgroundbackground subtraction multiple times will continue to itteratively subtract the backgroundbackground spectrum.</li>
+                            <li>Background subtraction is only implemented for .txt files. If you would like to perform background subtraction on spectra in .mat files, this can be done trivially before loading the .mat files into the app.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Plot the loaded spectra using the “Plot Spectrum” menu option.<ul>
+            <li>If you have already background subtracted, you will see this reflected in the plot</li>
+        </ul>
+    </li>
+    <li>Enter the “Spot Diameter” (in millimeters) of the detector that you used. This is needed to control for the collecting area of the detector.<ul>
+            <li><i>Note: this is the spot diameter for the <u>power meter,</u> not the photospectrometer</i></li>
+        </ul>
+    </li>
+    <li>Enter the “Power Reading” for the light. Select the appropriate units from the dropdown menu</li>
+    <li>Press the “Run Calibration” button<ul>
+            <li>The results of the calibration should be available in your Matlab workspace as a structure called “CalibrationStructure”. The photoisomerization rates (photoisomerizations per photoreceptor per second) are stored in a field called “Photoisomerizations_MSR”. This is a 1x3 vector containing the photoisomerization rates for M cones, S cones, and Rods. Some of the other variables in the structure can be confusing/misinterpreted, so I recommend sticking to using just this value in your interpretation of the data.</li>
+        </ul>
+    </li>
+    <li>Use the “Save” menu option to save data</li>
+</ul>
+</body>
